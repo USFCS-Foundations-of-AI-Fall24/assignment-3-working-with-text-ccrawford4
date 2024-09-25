@@ -25,5 +25,6 @@ def euclidean_distance(d1, d2) :
 
 ## You implement this.
 def cosine_similarity(d1,d2) :
+    # Measure of distance between two documents
     pass
 

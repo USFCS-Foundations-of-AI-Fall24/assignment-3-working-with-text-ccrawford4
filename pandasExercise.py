@@ -1,5 +1,7 @@
 import pandas as pd
-import numpy as np
+import seaborn as sns
+from matplotlib import pyplot as plt
+
 
 def chapter_one(data_frame) :
     return data_frame['class']
@@ -23,6 +25,23 @@ def chapter_three(data_frame) :
     most_common_menopause = filtered_rows['menopause'].mode()[0]
     return most_common_age, most_common_menopause
 
+def chapter_four(data_frame) :
+    recurrence_df = data_frame[data_frame['class'] == 'recurrence-events']
+    age_counts = recurrence_df['age'].value_counts().sort_index()
+
+    # Plotting
+    plt.figure(figsize=(10, 6))
+    sns.barplot(x=age_counts.index, y=age_counts.values, palette="Blues_d")
+    plt.title("Number of Recurrences for Each Age Group", fontsize=16)
+    plt.xlabel("Age Group", fontsize=12)
+    plt.ylabel("Number of Recurrences", fontsize=12)
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+
+    # Show the plot
+    plt.show()
+    return
+
 def print_results(chapter_name, function, df) :
     print(chapter_name + ": ")
     print(function(df))
@@ -33,7 +52,8 @@ if __name__ == '__main__':
     results = {
         "Chapter 1":  chapter_one,
         "Chapter 2": chapter_two,
-        "Chapter 3": chapter_three
+        "Chapter 3": chapter_three,
+        "Chapter 4": chapter_four
     }
     for name, value in results.items():
         print_results(name, value, df)

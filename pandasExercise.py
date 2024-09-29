@@ -18,23 +18,22 @@ def chapter_two(data_frame) :
     return "no-recurrence-events", no_recurrence_prop
 
 def chapter_three(data_frame) :
-    # Determine the most common value for age and menopause for patients
-    # with recurrences
-    best = df['class'].get('recurrence-events')
-    print(best)
-
+    filtered_rows = data_frame[data_frame['class'] == 'recurrence-events']
+    most_common_age = filtered_rows['age'].mode()[0]
+    most_common_menopause = filtered_rows['menopause'].mode()[0]
+    return most_common_age, most_common_menopause
 
 def print_results(chapter_name, function, df) :
     print(chapter_name + ": ")
     print(function(df))
 
 if __name__ == '__main__':
-    column_names = ['class', 'age', 'Menopause', 'tumor-size', 'inv-nodes', 'node-caps', 'deg-malig', 'breast', 'breast-quad', 'irradiat']
+    column_names = ['class', 'age', 'menopause', 'tumor-size', 'inv-nodes', 'node-caps', 'deg-malig', 'breast', 'breast-quad', 'irradiat']
     df = pd.read_csv('breast-cancer.data', names=column_names)
     results = {
-        "Chapter 1": chapter_one,
+        "Chapter 1":  chapter_one,
         "Chapter 2": chapter_two,
-        "Chapter 3": chapter_three,
+        "Chapter 3": chapter_three
     }
     for name, value in results.items():
         print_results(name, value, df)

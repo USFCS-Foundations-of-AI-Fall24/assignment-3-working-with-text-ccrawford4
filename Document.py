@@ -2,6 +2,8 @@
 
 from collections import defaultdict
 from math import sqrt
+import numpy as np
+from numpy.linalg import norm
 
 class Document :
     def __init__(self, true_class=None):
@@ -25,6 +27,21 @@ def euclidean_distance(d1, d2) :
 
 ## You implement this.
 def cosine_similarity(d1,d2) :
-    # Measure of distance between two documents
-    pass
+    numerator = 0
+    for key, value in d1.tokens.items() :
+        if key in d2.tokens :
+            numerator += value * d2.tokens[key]
+
+    sqr1 = 0
+    for value in d1.tokens.values() :
+        sqr1 += value**2
+    sqr1 = sqrt(sqr1)
+    sqr2 = 0
+    for key, value in d2.tokens.items() :
+        sqr2 += value**2
+    sqr2 = sqrt(sqr2)
+
+    denominator = sqr1 * sqr2
+
+    return numerator / denominator
 

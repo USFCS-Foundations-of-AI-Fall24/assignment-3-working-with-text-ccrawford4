@@ -35,8 +35,6 @@ def chapter_four(data_frame) :
     plt.title("Number of Recurrences for Each Age Group", fontsize=16)
     plt.xlabel("Age Group", fontsize=12)
     plt.ylabel("Number of Recurrences", fontsize=12)
-    plt.xticks(rotation=45)
-    plt.tight_layout()
 
     # Show the plot
     plt.show()

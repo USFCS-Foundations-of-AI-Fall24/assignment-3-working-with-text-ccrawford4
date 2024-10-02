@@ -19,7 +19,10 @@ class Cluster :
 
     ## You do this.
     def calculate_centroid(self):
-        pass
+        doc = Document()
+        # Counts averaged?
+        for member in self.members :
+
 
 
 # Call like so: k_means(2, ['pos','neg'], positive_docs + negative_docs)

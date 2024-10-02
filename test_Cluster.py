@@ -4,7 +4,13 @@ from Document import *
 
 class TestCluster(TestCase):
     def test_calculate_centroid(self):
-       pass
+       # Creates a new Document
+        # each tokens are all its members with the count averaged
+        doc = Document()
+        tokens = defaultdict(int)
+        self.assertTrue(True, True)
+
+
 
     def test_kmeans(self):
         d = Document(true_class='pos')

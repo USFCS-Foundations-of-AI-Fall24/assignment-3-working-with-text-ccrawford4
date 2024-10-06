@@ -1,4 +1,5 @@
 import random
+from copy import deepcopy
 
 from Document import *
 
@@ -51,21 +52,22 @@ def k_means(n_clusters, true_classes, data) :
     i = 0
     while i < n_clusters :
         ## compute initial cluster centroids
-        og_cluster_list = cluster_list
+        og_cluster_list = deepcopy(cluster_list)
         for cluster in cluster_list :
             for doc in cluster.members :
                 similarities = [cosine_similarity(doc, cluster.centroid) for cluster in cluster_list]
                 closest_cluster_idx = similarities.index(max(similarities))
 
                 # If the document is closer to a different cluster then move it to said cluster
-                if doc not in cluster_list[closest_cluster_idx].members :
-                    # Remove the doc from the cluster its in currently
-                    cluster.members.remove(cluster.members.index(doc))
+                # Remove the doc from the cluster its in currently
+                cluster.members.remove(doc)
 
-                    # move it to the new cluster
-                    cluster_list[closest_cluster_idx].members.append(doc)
+                # move it to the new cluster
+                cluster_list[closest_cluster_idx].members.append(doc)
         # If no docs were moved then we finished
         if og_cluster_list == cluster_list :
+            if i == 0 :
+                print("Was already sorted...")
             print("Finished K-Means")
             break
         i += 1

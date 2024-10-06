@@ -19,6 +19,12 @@ class TestCluster(TestCase):
         d2.add_tokens(['cat', 'dog', 'fish'])
         d3 = Document(true_class='neg')
         d3.add_tokens(['bunny', 'lizard', 'octopus'])
-        print(k_means(2, ['pos', 'neg'], [d,d2,d3]))
+        d4 = Document(true_class='neg')
+        d4.add_tokens(['bunny', 'lizard', 'turtle'])
+        cluster_list = k_means(2, ['pos', 'neg'], [d, d2, d3, d4])
 
-
+        for cluster in cluster_list :
+            if d in cluster.members :
+                self.assertTrue(d2 in cluster.members)
+            if d3 in cluster.members :
+                self.assertTrue(d4 in cluster.members)

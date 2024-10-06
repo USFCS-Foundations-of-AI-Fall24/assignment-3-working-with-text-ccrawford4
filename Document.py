@@ -30,4 +30,4 @@ def cosine_similarity(d1,d2) :
     sqrt1 = sqrt(sum(value**2 for value in d1.tokens.values()))
     sqrt2 = sqrt(sum(value**2 for value in d2.tokens.values()))
     denominator = sqrt1 * sqrt2
-    return numerator / denominator
+    return numerator / max(denominator, 0.0000000000001)

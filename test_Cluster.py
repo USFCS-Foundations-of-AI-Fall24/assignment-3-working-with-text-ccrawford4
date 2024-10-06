@@ -5,15 +5,12 @@ from Document import *
 class TestCluster(TestCase):
     def test_calculate_centroid(self):
         doc1 = Document()
-        doc1.tokens = {'a': 2, 'b': 23, 'c': 13, 'f': -1, 'h': 3, 'i': 3, 'j': 1}
         doc2 = Document()
-        doc2.tokens = {'c': 2, 'e': 2, 'f': 3, 'g': 78, 'z': 2}
-        expected_result = defaultdict(lambda: 0.0)
-        expected_result['f'] = 1.0
-        expected_result['c'] = 7.5
-        self.assertEqual(calculate_centroid(doc1, doc2).tokens, expected_result)
-
-
+        doc1.tokens = {'cat': 2, 'dog': 1, 'lizard': 32}
+        doc2.tokens = {'cat': 6, 'dog': 5, 'lizard': 2}
+        cluster = Cluster(members=[doc1, doc2])
+        cluster.calculate_centroid()
+        self.assertEquals(cluster.centroid.tokens, {'cat': 4, 'dog': 3, 'lizard': 17})
 
     def test_kmeans(self):
         d = Document(true_class='pos')

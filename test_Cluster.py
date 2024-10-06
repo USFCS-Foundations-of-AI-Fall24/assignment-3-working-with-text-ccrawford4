@@ -1,11 +1,15 @@
 from unittest import TestCase
-
-from sklearn.linear_model._base import make_dataset
+from matplotlib import pyplot as plt
 
 from Cluster import *
 from Document import *
 from make_dataset import create_docs
 
+def populate_documents(tokens, true_class, documents) :
+    for token in tokens :
+        new_doc = Document(true_class=true_class)
+        new_doc.add_tokens(token)
+        documents.append(new_doc)
 
 class TestCluster(TestCase):
     def test_calculate_centroid(self):
@@ -37,17 +41,17 @@ class TestCluster(TestCase):
     def test_compute_homogeneity(self) :
         documents = []
         pos_docs, neg_docs = create_docs(3, 4)
-        for tokens in pos_docs:
-            doc = Document(true_class='pos')
-            doc.add_tokens(tokens)
-            documents.append(doc)
-
-        for tokens in neg_docs :
-            doc = Document(true_class='neg')
-            doc.add_tokens(tokens)
-            documents.append(doc)
-
+        populate_documents(pos_docs, 'pos', documents)
+        populate_documents(neg_docs, 'neg', documents)
         result = k_means(2, ['pos', 'neg'], documents)
-        self.assertGreaterEqual(compute_homogeneity(result[0]), 0.75)
-        self.assertGreaterEqual(compute_homogeneity(result[1]), 0.75)
+        for cluster in result :
+            self.assertGreaterEqual(compute_homogeneity(cluster), 0.75)
 
+    def test_compute_completeness(self) :
+        documents = []
+        pos_docs, neg_docs = create_docs(2, 1)
+        populate_documents(pos_docs, 'pos', documents)
+        populate_documents(neg_docs, 'neg', documents)
+        result = k_means(2, ['pos', 'neg'], documents)
+        for cluster in result:
+            self.assertGreaterEqual(compute_homogeneity(cluster), 0.66666)

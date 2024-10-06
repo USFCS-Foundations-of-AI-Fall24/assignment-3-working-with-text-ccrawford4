@@ -20,30 +20,32 @@ def create_easy_documents(list_of_docs, true_class, filters=None, transforms=Non
             words = [word for word in words if f(word)]
 
         ## deal with transforms here
-
-        d.add_tokens(words)
+        cleaned_words = []
+        for word in words:
+            for transformer in transforms:
+                word = transformer(word)
+            cleaned_words.append(word)
+        d.add_tokens(cleaned_words)
         document_list.append(d)
     return document_list
 
 ## filters - return true if the token meets the criterion
 
-# you do this.
 def not_stopword(token) :
-    pass
+    return token not in ['a', 'an', 'the']
 
 def not_cat(token) :
     return token is not 'cat'
-
 
 # transforms - convert a token into a new format
 
 # you do this.
 def remove_trailing_punct(token) :
-    pass
+    return token.rstrip(string.punctuation)
 
 # and this
 def convert_to_lowercase(token) :
-    pass
+    return token.lower()
 
 
 
@@ -63,7 +65,7 @@ def compute_homogeneity(list_of_clusters, list_of_classes) :
 # result = k_means(2, ['pos','neg'], positive_docs + negative_docs)
 # compute_completeness(result, ['pos','neg'])
 
-def compute_completeness(list_of_clusters, list_of_classes)
+def compute_completeness(list_of_clusters, list_of_classes):
     # clist will be the homogeneity for each cluster.
     clist = []
 

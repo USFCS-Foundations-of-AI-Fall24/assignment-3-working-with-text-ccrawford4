@@ -4,11 +4,14 @@ from Document import *
 
 class TestCluster(TestCase):
     def test_calculate_centroid(self):
-       # Creates a new Document
-        # each tokens are all its members with the count averaged
-        doc = Document()
-        tokens = defaultdict(int)
-        self.assertTrue(True, True)
+        doc1 = Document()
+        doc1.tokens = {'a': 2, 'b': 23, 'c': 13, 'f': -1, 'h': 3, 'i': 3, 'j': 1}
+        doc2 = Document()
+        doc2.tokens = {'c': 2, 'e': 2, 'f': 3, 'g': 78, 'z': 2}
+        expected_result = defaultdict(lambda: 0.0)
+        expected_result['f'] = 1.0
+        expected_result['c'] = 7.5
+        self.assertEqual(calculate_centroid(doc1, doc2).tokens, expected_result)
 
 
 

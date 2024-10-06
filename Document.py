@@ -25,7 +25,6 @@ def euclidean_distance(d1, d2) :
     dist = sum([(d1.tokens[item] - d2.tokens[item])**2 for item in union])
     return dist
 
-## You implement this.
 def cosine_similarity(d1,d2) :
     numerator = sum(value * d2.tokens[key] for key, value in d1.tokens.items() if key in d2.tokens)
     sqrt1 = sqrt(sum(value**2 for value in d1.tokens.values()))

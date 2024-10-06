@@ -1,6 +1,11 @@
 from unittest import TestCase
+
+from sklearn.linear_model._base import make_dataset
+
 from Cluster import *
 from Document import *
+from make_dataset import create_docs
+
 
 class TestCluster(TestCase):
     def test_calculate_centroid(self):
@@ -28,3 +33,21 @@ class TestCluster(TestCase):
                 self.assertTrue(d2 in cluster.members)
             if d3 in cluster.members :
                 self.assertTrue(d4 in cluster.members)
+
+    def test_compute_homogeneity(self) :
+        documents = []
+        pos_docs, neg_docs = create_docs(3, 4)
+        for tokens in pos_docs:
+            doc = Document(true_class='pos')
+            doc.add_tokens(tokens)
+            documents.append(doc)
+
+        for tokens in neg_docs :
+            doc = Document(true_class='neg')
+            doc.add_tokens(tokens)
+            documents.append(doc)
+
+        result = k_means(2, ['pos', 'neg'], documents)
+        self.assertGreaterEqual(compute_homogeneity(result[0]), 0.75)
+        self.assertGreaterEqual(compute_homogeneity(result[1]), 0.75)
+

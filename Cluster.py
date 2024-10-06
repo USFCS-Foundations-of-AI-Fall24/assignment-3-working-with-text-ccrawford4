@@ -42,13 +42,6 @@ def k_means(n_clusters, true_classes, data) :
     for cluster in cluster_list:
         cluster.calculate_centroid()
 
-    # while not done and i < limit
-    #   i++
-
-    #   reassign each Document to the closest matching cluster using
-    #   cosine similarity
-    #   compute the centroids of each cluster
-
     i = 0
     while i < n_clusters :
         ## compute initial cluster centroids
@@ -59,19 +52,27 @@ def k_means(n_clusters, true_classes, data) :
                 closest_cluster_idx = similarities.index(max(similarities))
 
                 # If the document is closer to a different cluster then move it to said cluster
-                # Remove the doc from the cluster its in currently
+                # Remove the doc from the cluster its in currently and move it to the closer one
                 cluster.members.remove(doc)
-
-                # move it to the new cluster
                 cluster_list[closest_cluster_idx].members.append(doc)
         # If no docs were moved then we finished
         if og_cluster_list == cluster_list :
-            if i == 0 :
-                print("Was already sorted...")
             print("Finished K-Means")
             break
-        i += 1
-
         for cluster in cluster_list:
             cluster.calculate_centroid()
+        i += 1
+
     return cluster_list
+
+def compute_homogeneity(cluster) :
+    npos = 0
+    nneg = 0
+
+    for doc in cluster.members :
+        if doc.true_class == 'pos' :
+            npos += 1
+        else :
+            nneg += 1
+
+    return max(npos, nneg) / (npos + nneg)

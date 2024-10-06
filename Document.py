@@ -17,7 +17,6 @@ class Document :
     def __repr__(self):
         return f"{self.true_class} {self.tokens}"
 
-
 # return the distance between two documents
 def euclidean_distance(d1, d2) :
     # take the union of the tokens in each document

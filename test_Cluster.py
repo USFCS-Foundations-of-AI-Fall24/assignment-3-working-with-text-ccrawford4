@@ -39,6 +39,7 @@ class TestCluster(TestCase):
                 self.assertTrue(d4 in cluster.members)
 
     def test_compute_homogeneity(self) :
+        # Take the most common thing / total
         documents = []
         pos_docs, neg_docs = create_docs(3, 4)
         populate_documents(pos_docs, 'pos', documents)
@@ -48,8 +49,12 @@ class TestCluster(TestCase):
             self.assertGreaterEqual(compute_homogeneity(cluster), 0.75)
 
     def test_compute_completeness(self) :
+        # most common element * how many of the total # of positives
+        # the # pos / total # of positives
+
+        # the # of pos in this cluster / the total # of positives
         documents = []
-        pos_docs, neg_docs = create_docs(2, 1)
+        pos_docs, neg_docs = create_docs(3, 1)
         populate_documents(pos_docs, 'pos', documents)
         populate_documents(neg_docs, 'neg', documents)
         result = k_means(2, ['pos', 'neg'], documents)

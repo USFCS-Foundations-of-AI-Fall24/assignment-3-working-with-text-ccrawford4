@@ -22,7 +22,7 @@ def modify_words(words) :
                 words.remove(word)
             words.append(new_word)
 
-def create_docs(npos, nneg, use_random=False) :
+def create_docs(npos, nneg, use_random=False, length=25) :
     pos_lexicon = ['cat', 'dog', 'fish', 'monkey', 'goat', 'hippo', 'orangutan', 'whale', 'lobster', 'horse']
     neg_lexicon = ['cat', 'fish', 'joke', 'map', 'right', 'fly', 'sled', 'tiger', 'hide', 'float']
 
@@ -30,8 +30,8 @@ def create_docs(npos, nneg, use_random=False) :
     neg_docs = []
 
     if use_random :
-        pos_lexicon = get_random_words(npos)
-        neg_lexicon = get_random_words(nneg)
+        pos_lexicon = get_random_words(length)
+        neg_lexicon = get_random_words(length)
         modify_words(pos_lexicon)
         modify_words(neg_lexicon)
 

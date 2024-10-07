@@ -64,26 +64,3 @@ def k_means(n_clusters, true_classes, data) :
         i += 1
 
     return cluster_list
-
-def compute_homogeneity(cluster) :
-    npos = 0
-    nneg = 0
-
-    for doc in cluster.members :
-        if doc.true_class == 'pos' :
-            npos += 1
-        else :
-            nneg += 1
-    return max(npos, nneg) / (npos + nneg)
-
-def compute_completeness(cluster) :
-    npos = 0
-    nneg = 0
-
-    for doc in cluster.members:
-        if doc.true_class == 'pos':
-            npos += 1
-        else:
-            nneg += 1
-
-    return max(npos, nneg) / (npos + nneg)

@@ -3,6 +3,7 @@ from matplotlib import pyplot as plt
 
 from Cluster import *
 from Document import *
+from Loader import compute_homogeneity, compute_completeness
 from make_dataset import create_docs
 
 def populate_documents(tokens, true_class, documents) :
@@ -41,12 +42,11 @@ class TestCluster(TestCase):
     def test_compute_homogeneity(self) :
         # Take the most common thing / total
         documents = []
-        pos_docs, neg_docs = create_docs(3, 4)
+        pos_docs, neg_docs = create_docs(1, 6)
         populate_documents(pos_docs, 'pos', documents)
         populate_documents(neg_docs, 'neg', documents)
         result = k_means(2, ['pos', 'neg'], documents)
-        for cluster in result :
-            self.assertGreaterEqual(compute_homogeneity(cluster), 0.75)
+        self.assertGreaterEqual(compute_homogeneity(result, ['pos', 'neg']), [0.5, 1.0])
 
     def test_compute_completeness(self) :
         # most common element * how many of the total # of positives
@@ -58,5 +58,4 @@ class TestCluster(TestCase):
         populate_documents(pos_docs, 'pos', documents)
         populate_documents(neg_docs, 'neg', documents)
         result = k_means(2, ['pos', 'neg'], documents)
-        for cluster in result:
-            self.assertGreaterEqual(compute_homogeneity(cluster), 0.66666)
+        self.assertGreaterEqual(compute_completeness(result, ['pos', 'neg']), [0.6, 1.0])

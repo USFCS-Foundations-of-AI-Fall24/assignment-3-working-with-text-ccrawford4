@@ -35,7 +35,7 @@ def not_stopword(token) :
     return token not in ['a', 'an', 'the']
 
 def not_cat(token) :
-    return token is not 'cat'
+    return token != 'cat'
 
 # transforms - convert a token into a new format
 
@@ -53,22 +53,42 @@ def convert_to_lowercase(token) :
 # call this like so:
 # result = k_means(2, ['pos','neg'], positive_docs + negative_docs)
 # compute_homogeneity(result, ['pos','neg'])
-def compute_homogeneity(list_of_clusters, list_of_classes) :
+def compute_homogeneity(list_of_clusters, list_of_classes):
     # hlist will be the homogeneity for each cluster.
     hlist = []
 
+    for cluster in list_of_clusters:
+        class_counts = defaultdict(lambda: 0)
+        for doc in cluster.members:
+            class_counts[doc.true_class] += 1
+
+        max_count = max(class_counts.values())
+        homogeneity = max_count / max(len(cluster.members), 1)
+        hlist.append(homogeneity)
+
     return hlist
+
 
 ## completeness: for the dominant class in each cluster, what fraction
 # of that class' members are in that cluster?
 # call this like so:
 # result = k_means(2, ['pos','neg'], positive_docs + negative_docs)
 # compute_completeness(result, ['pos','neg'])
-
 def compute_completeness(list_of_clusters, list_of_classes):
-    # clist will be the homogeneity for each cluster.
     clist = []
 
+    for _class in list_of_classes:
+        class_docs = [doc for cluster in list_of_clusters for doc in cluster.members if doc.true_class == _class]
+        class_count = len(class_docs)
+
+        if class_count > 0:
+            max_cluster_count = max(
+                len([doc for doc in cluster.members if doc.true_class == _class]) for cluster in list_of_clusters)
+            completeness = max_cluster_count / class_count
+        else:
+            completeness = 0
+
+        clist.append(completeness)
     return clist
 
 if __name__=="__main__" :

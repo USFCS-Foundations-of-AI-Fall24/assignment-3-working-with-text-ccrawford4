@@ -2,8 +2,6 @@
 
 from collections import defaultdict
 from math import sqrt
-import numpy as np
-from numpy.linalg import norm
 
 class Document :
     def __init__(self, true_class=None):

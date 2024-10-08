@@ -59,5 +59,5 @@ def five_fold_cross_validation(nwords, nelements):
 
     return accuracy / 5
 
-if __name__ == '__main__':
+def run_classifier() :
     print("Five fold accuracy: ", five_fold_cross_validation(100, 100))

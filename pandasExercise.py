@@ -44,7 +44,7 @@ def print_results(chapter_name, function, df) :
     print(chapter_name + ": ")
     print(function(df))
 
-if __name__ == '__main__':
+def run_pandas():
     column_names = ['class', 'age', 'menopause', 'tumor-size', 'inv-nodes', 'node-caps', 'deg-malig', 'breast', 'breast-quad', 'irradiat']
     df = pd.read_csv('breast-cancer.data', names=column_names)
     results = {

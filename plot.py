@@ -1,3 +1,4 @@
+from Loader import compute_homogeneity
 from make_dataset import create_docs
 from test_Cluster import populate_documents
 from Cluster import *
@@ -13,13 +14,8 @@ def plot_k_means():
         populate_documents(pos_docs, 'pos', documents)
         populate_documents(neg_docs, 'neg', documents)
         x_axis.append(size)
-        result = k_means(2, ['pos', 'neg'], documents)
-        accuracy = 0
-        for cluster in result :
-            if accuracy == 0 :
-                accuracy += compute_homogeneity(cluster)
-            else :
-                accuracy = (accuracy + compute_homogeneity(cluster) / 2)
+        clusters = k_means(2, ['pos', 'neg'], documents)
+        accuracy = compute_accuracy(clusters)
         y_axis.append(accuracy)
 
     plt.title("Homogeneity of Clusters")
@@ -28,18 +24,7 @@ def plot_k_means():
     plt.plot(x_axis, y_axis)
     plt.show()
 
-if __name__ == '__main__':
-    # plot_k_means()
-    documents = []
-    pos_docs, neg_docs = create_docs(100, 100, True)
-    populate_documents(pos_docs, 'pos', documents)
-    populate_documents(neg_docs, 'neg', documents)
-    result = k_means(2, ['pos', 'neg'], documents)
-    accuracy = 0
-    for cluster in result :
-        if accuracy == 0 :
-            accuracy += compute_homogeneity(cluster)
-        else :
-            accuracy = (accuracy + compute_homogeneity(cluster) / 2)
-
-    print("Accuracy: ", accuracy)
+def compute_accuracy(cluster_list) :
+    h_list = compute_homogeneity(cluster_list, ['pos', 'neg'])
+    accuracy = sum(h_list) / len(h_list)
+    return accuracy

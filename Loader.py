@@ -1,4 +1,5 @@
 ## Code for loading training sets and creating documents.
+import operator
 import string
 
 from Document import *
@@ -57,15 +58,13 @@ def compute_homogeneity(list_of_clusters, list_of_classes):
     # hlist will be the homogeneity for each cluster.
     hlist = []
 
-    for cluster in list_of_clusters:
-        class_counts = defaultdict(lambda: 0)
-        for doc in cluster.members:
-            class_counts[doc.true_class] += 1
-
-        max_count = max(class_counts.values())
-        homogeneity = max_count / max(len(cluster.members), 1)
-        hlist.append(homogeneity)
-
+    for cluster in list_of_clusters :
+        class_ratio = defaultdict(lambda: 0.0)
+        for doc in cluster.members :
+            if doc.true_class in list_of_classes :
+                class_ratio[doc.true_class] += 1.0
+        sorted_class = sorted(class_ratio.items(), key=operator.itemgetter(1), reverse=True)
+        hlist.append(class_ratio[sorted_class[0][0]] / len(cluster.members))
     return hlist
 
 

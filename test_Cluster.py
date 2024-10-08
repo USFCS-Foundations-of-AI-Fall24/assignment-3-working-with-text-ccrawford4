@@ -20,7 +20,7 @@ class TestCluster(TestCase):
         doc2.tokens = {'cat': 6, 'dog': 5, 'lizard': 2}
         cluster = Cluster(members=[doc1, doc2])
         cluster.calculate_centroid()
-        self.assertEquals(cluster.centroid.tokens, {'cat': 4, 'dog': 3, 'lizard': 17})
+        self.assertEqual(cluster.centroid.tokens, {'cat': 4, 'dog': 3, 'lizard': 17})
 
     def test_kmeans(self):
         d = Document(true_class='pos')
@@ -49,10 +49,6 @@ class TestCluster(TestCase):
         self.assertGreaterEqual(compute_homogeneity(result, ['pos', 'neg']), [0.5, 1.0])
 
     def test_compute_completeness(self) :
-        # most common element * how many of the total # of positives
-        # the # pos / total # of positives
-
-        # the # of pos in this cluster / the total # of positives
         documents = []
         pos_docs, neg_docs = create_docs(3, 1)
         populate_documents(pos_docs, 'pos', documents)
